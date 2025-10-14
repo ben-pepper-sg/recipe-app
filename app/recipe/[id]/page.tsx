@@ -8,12 +8,13 @@ import { notFound } from 'next/navigation';
 export default async function RecipeDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await auth();
+  const { id } = await params;
 
   const recipe = await db.query.recipes.findFirst({
-    where: eq(recipes.id, params.id),
+    where: eq(recipes.id, id),
   });
 
   if (!recipe) {

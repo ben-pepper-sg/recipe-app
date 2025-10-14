@@ -8,7 +8,7 @@ import RecipeForm from '@/components/RecipeForm';
 export default async function EditRecipePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await auth();
 
@@ -16,8 +16,10 @@ export default async function EditRecipePage({
     redirect('/auth/signin');
   }
 
+  const { id } = await params;
+
   const recipe = await db.query.recipes.findFirst({
-    where: eq(recipes.id, params.id),
+    where: eq(recipes.id, id),
   });
 
   if (!recipe) {
@@ -25,7 +27,7 @@ export default async function EditRecipePage({
   }
 
   if (recipe.createdBy !== session.user.id) {
-    redirect(`/recipe/${params.id}`);
+    redirect(`/recipe/${id}`);
   }
 
   return (

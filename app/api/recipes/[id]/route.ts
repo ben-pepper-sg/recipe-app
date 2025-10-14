@@ -14,7 +14,7 @@ const recipeSchema = z.object({
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -22,8 +22,10 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     const recipe = await db.query.recipes.findFirst({
-      where: eq(recipes.id, params.id),
+      where: eq(recipes.id, id),
     });
 
     if (!recipe) {
@@ -46,7 +48,7 @@ export async function PUT(
         instructionsText: data.instructionsText,
         updatedAt: new Date(),
       })
-      .where(eq(recipes.id, params.id))
+      .where(eq(recipes.id, id))
       .returning();
 
     return NextResponse.json(updatedRecipe);

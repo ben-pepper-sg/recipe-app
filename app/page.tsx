@@ -7,10 +7,11 @@ import Link from 'next/link';
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: { search?: string };
+  searchParams: Promise<{ search?: string }>;
 }) {
   const session = await auth();
-  const searchQuery = searchParams.search || '';
+  const { search } = await searchParams;
+  const searchQuery = search || '';
 
   const allRecipes = await db
     .select({
