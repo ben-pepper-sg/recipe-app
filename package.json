@@ -9,7 +9,8 @@
     "lint": "eslint",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "postinstall": "drizzle-kit push || true"
+    "db:init": "node scripts/init-db.js",
+    "postinstall": "npm run db:init || drizzle-kit push || true"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.10.0",
