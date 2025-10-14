@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "drizzle-kit push && next build --turbopack",
+    "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "postinstall": "drizzle-kit push || true"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.10.0",
